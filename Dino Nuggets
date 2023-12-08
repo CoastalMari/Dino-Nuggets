@@ -1,0 +1,53 @@
+import turtle
+import random
+
+wn = turtle.Screen()
+wn.title("Dino Game")
+wn.bgcolor("white")
+wn.setup(width=800, height=400)
+wn.tracer(0)
+
+dino = turtle.Turtle()
+dino.shape("sqaure")
+dino.color("black")
+dino.shapesize(stretch_wid=1, stretch_len=2)
+dino.penup()
+dino.goto(-200,-100)
+
+obstacle = turtle.Turtle()
+obstacle.shape("square")
+obstacle.color("red")
+obstacle.penup()
+obstacle.goto(400, -100)
+
+gravity = -0.5
+dino_speed = 0
+
+def jump():
+    global dino_speed
+    if dino.ycor() == -100:
+        dino_speed = 10
+
+wn.listen()
+wn.onkeypress(jump, "space")
+
+while true:
+    wn.update()
+
+    dino_speed += gravity
+    dino.sety(dino.ycor() + dino_speed)
+
+if dino.ycor() < -100:
+    dino.sety(-100)
+    dino_speed = 0
+
+obstacle.setx(obstacle.xcor() - 5)
+
+if dino.xcor() + 20 > obstacle.xcor() > dino.xcor - 20 and dino.ycor() < -80:
+    print("Game Over!")
+    break
+
+if obstacle.xcor() < -400:
+    obstacle.goto(400, -100)
+
+wn.bye()
